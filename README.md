@@ -10,13 +10,13 @@ A short module designed to help check calculations in combinatory algebras
 >>> K*identity*0*1
 <1>
 >>> B = bluebird(1)
+>>> B
+S(KS)(S(KK)(SKK))
 >>> B*0*1*2
 <0>(<1><2>)
 >>> bluebird(3)*0*1*2*3*4
 <0>(<1><2><3><4>)
 >>> projection(1, 0)*0
-<0>
->>> projection(2,0)*0*1#
 <0>
 >>> projection(2,0)*0*1
 <0>
