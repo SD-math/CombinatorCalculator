@@ -39,3 +39,9 @@ Indeed, we can produce the well-known infinite loop:
 ...
 RecursionError: maximum recursion depth exceeded
 ...
+```
+We can also construct the mockingbird as `S*identity*identity`:
+```python
+S*identity*identity*0
+<0><0>
+```
