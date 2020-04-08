@@ -80,3 +80,24 @@ We can even check that this horrifying expression works:
 xzy
 ```
 Clearly this algorithm does not produce the friendliest possible repressentation. This monster is actually just the combinator `C`.
+
+In a couple of stages, we can use currying to derive the `Y` combinator. However, some care must be taken, and it helps also know how currying works mathematically. The `Y` combinator ought to be such that, for any `f`, `Yf` is `t*t`, where, for any `x`, `t*x=f*(x*x)`. We can curry `x` out of `t`:
+```python
+>>> f = Atom("f")
+>>> x = Atom("x")
+>>> t = curry(f*(x*x), x)
+>>>> t
+S(Kf)(S(SKK)(SKK))
+```
+However, we cannot simply rush in and calculate `Y = curry(t*t, f)`. This would end in an infinite loop, as `t*t` also ends in an infinite loop (intentionally!). But, we can curry `f` out of `t`, and from there we can derive `Y`. As before, we cannot compute `Y*f`:
+```python 
+>>> u = curry(t, f)
+>>> u
+S(S(KS)(S(KK)(SKK)))(S(S(KS)(S(S(KS)(KK))(KK)))(S(S(KS)(KK))(KK)))
+>>> Y = S*u*u
+>>> Y
+S(S(S(KS)(S(KK)(SKK)))(S(S(KS)(S(S(KS)(KK))(KK)))(S(S(KS)(KK))(KK))))(S(S(KS)(S(KK)(SKK)))(S(S(KS)(S(S(KS)(KK))(KK)))(S(S(KS)(KK))(KK))))
+>>> Y*f
+...
+RecursionError: maximum recursion depth exceeded
+```
