@@ -31,7 +31,7 @@ K(K(K(S(KK)(SKK))))
 ```
 We can also introduce our own primitives. We may even introduce the mockingbird combinator `M':
 ```python
->>> M = Atom("M", lambda x: x * x)
+>>> M = Atom("M", lambda x: x*x)
 >>> M*0
 <0><0>
 ```
