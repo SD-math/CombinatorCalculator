@@ -40,10 +40,27 @@ Indeed, we can produce the well-known infinite loop:
 >>> M*M
 ...
 RecursionError: maximum recursion depth exceeded
-...
 ```
 We can also construct the mockingbird as `S*identity*identity`:
 ```python
 S*identity*identity*0
 <0><0>
+```
+
+Sch&ouml;nfinkel's combinator `C` is hard-coded. We can construct the famous `Y` combinator (otherwise known as the "fixed point combinator"):
+```python
+>>> C
+S(S(K(S(KS)K))S)(KK)
+>>> C*0*1*2 # try out the C combinator
+<0><2><1>
+>>> M = S*identity*identity # create the mockingbird
+>>> B = bluebird(1)
+>>> Y = S*(K*M)*(C*B*M) # create the Y combinator
+```
+However, the `Y` combinator gets us in trouble if we try to compute `Y*anything`, but it is an intentional infinite loop:
+```python
+>>> Y*0
+...
+RecursionError: maximum recursion depth exceeded while calling a Python object
+
 ```

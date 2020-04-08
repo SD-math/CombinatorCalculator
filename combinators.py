@@ -53,6 +53,7 @@ class Atom(Term):
 
 S = Atom("S", lambda x: lambda y: lambda z: (x * z) * (y * z))  # the melting function
 K = Atom("K", lambda x: lambda y: x)  # the kestrel
+C = (S * (S * (K * (S * (K * S) * K)) * S) * (K * K))
 identity = S * K * K  # the identity
 
 
