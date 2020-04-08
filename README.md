@@ -54,7 +54,9 @@ S(S(K(S(KS)K))S)(KK)
 >>> C*0*1*2 # try out the C combinator
 <0><2><1>
 >>> M = S*identity*identity # create the mockingbird
->>> B = bluebird(1)
+>>> B = bluebird(1) # get the bluebird
+>>> B*0*1*2 # check out the bluebird
+<0>(<1><2>)
 >>> Y = B*M*(C*B*M) # create the Y combinator
 ```
 However, the `Y` combinator gets us in trouble if we try to compute `Y*anything`, but it is an intentional infinite loop:
