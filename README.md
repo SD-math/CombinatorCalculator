@@ -24,5 +24,6 @@ S(KS)(S(KK)(SKK))
 <1>
 >>> projection(5,3)*0*1*2*3*4
 <3>
-
+>>> projection(5,3)
+K(K(K(S(KK)(SKK))))
 ```
