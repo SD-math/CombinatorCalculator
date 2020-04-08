@@ -69,6 +69,12 @@ We call an Atom without a rule a *variable*. We can deduce a closed term to repr
 >>> x = Atom("x")
 >>> y = Atom("y")
 >>> z = Atom("z")
->>> curry(x*z*y,x, y, z)
+>>> curry(x*z*y, x, y, z)
 S(S(KS)(S(S(KS)(S(KK)(KS)))(S(S(KS)(S(S(KS)(S(KK)(KS)))(S(S(KS)(S(KK)(KK)))(S(KK)(SKK)))))(S(S(KS)(S(S(KS)(S(KK)(KS)))(S(KK)(KK))))(S(KK)(KK))))))(S(S(KS)(S(KK)(KK)))(S(S(KS)(KK))(KK)))
 ```
+We can even check that this horrifying expression works:
+```python
+>>> curry(x*z*y, x, y, z)*x*y*z
+xzy
+```
+Clearly this algorithm does not produce the friendliest possible repressentation. This monster is actually just the combinator `C`.
