@@ -64,3 +64,11 @@ However, the `Y` combinator gets us in trouble if we try to compute `Y*anything`
 RecursionError: maximum recursion depth exceeded while calling a Python object
 
 ```
+We call an Atom without a rule a *variable*. We can deduce a closed term to represent any term, by giving the expression for the term in terms of the variables and using the  `curry` function to "curry out" all of the variables:
+```python
+>>> x = Atom("x")
+>>> y = Atom("y")
+>>> z = Atom("z")
+>>> curry(x*z*y,x, y, z)
+S(S(KS)(S(S(KS)(S(KK)(KS)))(S(S(KS)(S(S(KS)(S(KK)(KS)))(S(S(KS)(S(KK)(KK)))(S(KK)(SKK)))))(S(S(KS)(S(S(KS)(S(KK)(KS)))(S(KK)(KK))))(S(KK)(KK))))))(S(S(KS)(S(KK)(KK)))(S(S(KS)(KK))(KK)))
+```
