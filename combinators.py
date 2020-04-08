@@ -64,6 +64,13 @@ def bluebird(n):
         return identity
 
 
+def melting_function(n):
+    if n:
+        return S * melting_function(n - 1)
+    else:
+        return identity
+
+
 def projection(n, i):
     if n > 1:
         if i:
@@ -72,3 +79,31 @@ def projection(n, i):
             return bluebird(n - 1) * K * projection(n - 1, i)
     else:
         return identity
+
+
+__S = Atom("S")
+__K = Atom("K")
+
+
+def atoms_in(term):
+    if term.right:
+        return atoms_in(term.left) | atoms_in(term.right)
+    else:
+        return {term.left}
+
+
+def curry(term, *args):
+    if len(args) > 1:
+        return curry(curry(term, args[-1]), *args[:-1])
+    else:
+        arg = args[0]
+        if term.right:
+            if arg in atoms_in(term):
+                return K * term
+            else:
+                return S * (curry(term.left, arg)) * (curry(term.right, arg))
+        else:
+            if term is arg:
+                return identity
+            else:
+                return K * term
