@@ -81,7 +81,7 @@ xzy
 ```
 Clearly this algorithm does not produce the friendliest possible repressentation. This monster is actually just the combinator `C`.
 
-In a couple of stages, we can use currying to derive the `Y` combinator. However, some care must be taken, and it helps also know how currying works mathematically. The `Y` combinator ought to be such that, for any `f`, `Yf` is `t*t`, where, for any `x`, `t*x=f*(x*x)`. We can curry `x` out of `t`:
+In a couple of stages, we can use currying to derive the `Y` combinator. However, some care must be taken, and it helps also know how currying works mathematically. The `Y` combinator ought to be such that, for any `f`, `Y*f` is `t*t`, where, for any `x`, `t*x=f*(x*x)`. We can curry `x` out of `t`:
 ```python
 >>> f = Atom("f")
 >>> x = Atom("x")
