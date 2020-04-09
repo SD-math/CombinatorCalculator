@@ -15,9 +15,9 @@ The usual primitives, `S` and `K` are built in, as are some combinators which ar
 S(KS)(S(KK)(SKK))
 >>> B*0*1*2 # try out the bluebird
 <0>(<1><2>)
->>> bluebird(3)*0*1*2*3*4
+>>> bluebird(3)*0*1*2*3*4 # there are a whole family of bluebirds, with B = bluebird(1)
 <0>(<1><2><3><4>)
->>> projection(1, 0)*0
+>>> projection(1, 0)*0 # projection combinators are built in
 <0>
 >>> projection(2,0)*0*1
 <0>
