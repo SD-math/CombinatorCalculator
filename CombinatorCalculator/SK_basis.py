@@ -1,4 +1,4 @@
-from combinators import *
+from .combinators import *
 
 S = Atom("S", lambda x: lambda y: lambda z: (x * z) * (y * z))  # the melting function
 K = Atom("K", lambda x: lambda y: x)  # the kestrel
