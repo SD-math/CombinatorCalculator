@@ -64,11 +64,7 @@ def bluebird(n):
         return identity
 
 
-def melting_function(n):
-    if n:
-        return S * melting_function(n - 1)
-    else:
-        return identity
+B = bluebird(1)
 
 
 def projection(n, i):
@@ -79,10 +75,6 @@ def projection(n, i):
             return bluebird(n - 1) * K * projection(n - 1, i)
     else:
         return identity
-
-
-__S = Atom("S")
-__K = Atom("K")
 
 
 def atoms_in(term):
