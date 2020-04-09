@@ -11,14 +11,13 @@ The usual primitives, `S` and `K` are built in, as are some combinators which ar
 <0>
 >>> K*identity*0*1
 <1>
->>> B = bluebird(1)
->>> B
+>>> B # the B combinator is built in - otherwise known as the bluebird
 S(KS)(S(KK)(SKK))
->>> B*0*1*2
+>>> B*0*1*2 # try out the bluebird
 <0>(<1><2>)
->>> bluebird(3)*0*1*2*3*4
+>>> bluebird(3)*0*1*2*3*4 # there are a whole family of bluebirds, with B = bluebird(1)
 <0>(<1><2><3><4>)
->>> projection(1, 0)*0
+>>> projection(1, 0)*0 # projection combinators are built in
 <0>
 >>> projection(2,0)*0*1
 <0>
@@ -47,16 +46,13 @@ We can also construct the mockingbird as `S*identity*identity`:
 <0><0>
 ```
 
-Sch&ouml;nfinkel's combinator `C` is hard-coded. We can construct the famous `Y` combinator (otherwise known as the "fixed point combinator"):
+Sch&ouml;nfinkel's combinator `C` is built in. We can construct the famous `Y` combinator (otherwise known as the "fixed point combinator"):
 ```python
 >>> C
 S(S(K(S(KS)K))S)(KK)
 >>> C*0*1*2 # try out the C combinator
 <0><2><1>
 >>> M = S*identity*identity # create the mockingbird
->>> B = bluebird(1) # get the bluebird
->>> B*0*1*2 # try out the bluebird
-<0>(<1><2>)
 >>> Y = B*M*(C*B*M) # create the Y combinator
 ```
 However, the `Y` combinator gets us in trouble if we try to compute `Y*anything`, but it is an intentional infinite loop:
