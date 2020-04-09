@@ -75,7 +75,7 @@ We can even check that this expression works, because it is a combinator:
 >>> curry(x*z*y, x, y, z)*x*y*z
 xzy
 ```
-Clearly `curry` does not produce the friendliest possible representation. This monster is actually just the combinator `C`.
+Clearly `curry` does not produce the shortest possible representation. The term `curry(x*z*y, x, y, z)` serves the same purpose as the much simpler combinator `C`.
 
 In a couple of stages, we can use currying to derive the `Y` combinator. However, some care must be taken, and it helps to also know how currying works mathematically. The `Y` combinator ought to be such that, for any `f`, `Y*f` is `t*t`, where, for any `x`, `t*x=f*(x*x)`. We can curry `x` out of `t`:
 ```python
