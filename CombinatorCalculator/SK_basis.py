@@ -60,7 +60,10 @@ def curry(term, *args):
         arg = args[0]
         if arg in atoms_in(term):
             if term.right:
-                return S * curry(term.left, arg) * curry(term.right, arg)
+                if term.right is arg and arg not in atoms_in(term.left):
+                    return term.left
+                else:
+                    return S * curry(term.left, arg) * curry(term.right, arg)
             else:
                 return identity
         else:
