@@ -73,14 +73,14 @@ We can deduce a closed term to represent any term, by giving the expression for 
 >>> y = Atom("y")
 >>> z = Atom("z")
 >>> curry(x*z*y, x, y, z)
-S(S(KS)(S(KK)(S(KS)(S(S(KS)(S(KK)(SKK)))(K(SKK))))))(K(S(KK)(SKK)))
+S(S(KS)(S(KK)S))(KK)
 ```
 We can even check that this expression works, because it is a combinator:
 ```
 >>> curry(x*z*y, x, y, z)*x*y*z
 xzy
 ```
-Clearly `curry` does not produce the shortest possible representation. The term `curry(x*z*y, x, y, z)` serves the same purpose as the much simpler combinator `C`.
+The term `curry(x*z*y, x, y, z)` serves the same purpose as the `C` combinator.
 
 In a couple of stages, we can use currying to derive the `Y` combinator. However, some care must be taken, and it helps to also know how currying works mathematically. The `Y` combinator ought to be such that, for any `f`, `Y*f` is `t*t`, where, for any `x`, `t*x=f*(x*x)`. We can curry `x` out of `t`:
 ```
@@ -94,10 +94,10 @@ However, we cannot simply rush in and calculate `Y = curry(t*t, f)`. This would 
 ```
 >>> u = curry(t, f)
 >>> u
-S(S(KS)(S(KK)(SKK)))(K(S(SKK)(SKK)))
+S(S(KS)K)(K(S(SKK)(SKK)))
 >>> Y = S*u*u
 >>> Y
-S(S(S(KS)(S(KK)(SKK)))(K(S(SKK)(SKK))))(S(S(KS)(S(KK)(SKK)))(K(S(SKK)(SKK))))
+S(S(S(KS)K)(K(S(SKK)(SKK))))(S(S(KS)K)(K(S(SKK)(SKK))))
 >>> Y*f
 ...
 RecursionError: maximum recursion depth exceeded
