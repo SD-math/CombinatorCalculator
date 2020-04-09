@@ -72,9 +72,9 @@ We can deduce a closed term to represent any term, by giving the expression for 
 >>> y = Atom("y")
 >>> z = Atom("z")
 >>> curry(x*z*y, x, y, z)
-S(S(KS)(S(S(KS)(S(KK)(KS)))(S(S(KS)(S(S(KS)(S(KK)(KS)))(S(S(KS)(S(KK)(KK)))(S(KK)(SKK)))))(S(S(KS)(S(S(KS)(S(KK)(KS)))(S(KK)(KK))))(S(KK)(KK))))))(S(S(KS)(S(KK)(KK)))(S(S(KS)(KK))(KK)))
+S(S(KS)(S(KK)(S(KS)(S(S(KS)(S(KK)(SKK)))(K(SKK))))))(K(S(KK)(SKK)))
 ```
-We can even check that this horrifying expression works:
+We can even check that this expression works, because it is a combinator:
 ```python
 >>> curry(x*z*y, x, y, z)*x*y*z
 xzy
@@ -93,10 +93,10 @@ However, we cannot simply rush in and calculate `Y = curry(t*t, f)`. This would 
 ```python 
 >>> u = curry(t, f)
 >>> u
-S(S(KS)(S(KK)(SKK)))(S(S(KS)(S(S(KS)(KK))(KK)))(S(S(KS)(KK))(KK)))
+S(S(KS)(S(KK)(SKK)))(K(S(SKK)(SKK)))
 >>> Y = S*u*u
 >>> Y
-S(S(S(KS)(S(KK)(SKK)))(S(S(KS)(S(S(KS)(KK))(KK)))(S(S(KS)(KK))(KK))))(S(S(KS)(S(KK)(SKK)))(S(S(KS)(S(S(KS)(KK))(KK)))(S(S(KS)(KK))(KK))))
+S(S(S(KS)(S(KK)(SKK)))(K(S(SKK)(SKK))))(S(S(KS)(S(KK)(SKK)))(K(S(SKK)(SKK))))
 >>> Y*f
 ...
 RecursionError: maximum recursion depth exceeded

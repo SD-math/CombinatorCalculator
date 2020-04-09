@@ -1,4 +1,4 @@
-class Term:
+class Combinator:
     def __init__(self, left, relation=None):
         self.left = left
         self.right = None
@@ -30,20 +30,20 @@ class Term:
             return self * Atom("<{}>".format(other))
         else:
             if self.relation is None:
-                result = Term(self)
+                result = Combinator(self)
                 result.right = other
                 return result
             else:
                 val = self.relation(other)
-                if isinstance(val, Term):
+                if isinstance(val, Combinator):
                     return val
                 else:
-                    result = Term(self, val)
+                    result = Combinator(self, val)
                     result.right = other
                     return result
 
 
-class Atom(Term):
+class Atom(Combinator):
     def __init__(self, left, relation=None):
         super().__init__(left, relation)
 
@@ -81,7 +81,7 @@ def atoms_in(term):
     if term.right:
         return atoms_in(term.left) | atoms_in(term.right)
     else:
-        return {term.left}
+        return {term}
 
 
 def curry(term, *args):
@@ -89,13 +89,10 @@ def curry(term, *args):
         return curry(curry(term, args[-1]), *args[:-1])
     else:
         arg = args[0]
-        if term.right:
-            if arg in atoms_in(term):
-                return K * term
+        if arg in atoms_in(term):
+            if term.right:
+                return S * curry(term.left, arg) * curry(term.right, arg)
             else:
-                return S * (curry(term.left, arg)) * (curry(term.right, arg))
-        else:
-            if term is arg:
                 return identity
-            else:
-                return K * term
+        else:
+            return K * term
