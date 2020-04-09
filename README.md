@@ -29,7 +29,7 @@ S(KS)(S(KK)(SKK))
 >>> projection(5,3)
 K(K(K(S(KK)(SKK))))
 ```
-We can also introduce our own primitives. We may even introduce the mockingbird combinator `M':
+We can also introduce our own primitives. We may even introduce the mockingbird combinator `M`:
 ```python
 >>> M = Atom("M", lambda x: x*x)
 >>> M*0
@@ -55,7 +55,7 @@ S(S(K(S(KS)K))S)(KK)
 <0><2><1>
 >>> M = S*identity*identity # create the mockingbird
 >>> B = bluebird(1) # get the bluebird
->>> B*0*1*2 # check out the bluebird
+>>> B*0*1*2 # try out the bluebird
 <0>(<1><2>)
 >>> Y = B*M*(C*B*M) # create the Y combinator
 ```
@@ -79,17 +79,17 @@ We can even check that this horrifying expression works:
 >>> curry(x*z*y, x, y, z)*x*y*z
 xzy
 ```
-Clearly this algorithm does not produce the friendliest possible repressentation. This monster is actually just the combinator `C`.
+Clearly `curry` does not produce the friendliest possible representation. This monster is actually just the combinator `C`.
 
-In a couple of stages, we can use currying to derive the `Y` combinator. However, some care must be taken, and it helps also know how currying works mathematically. The `Y` combinator ought to be such that, for any `f`, `Y*f` is `t*t`, where, for any `x`, `t*x=f*(x*x)`. We can curry `x` out of `t`:
+In a couple of stages, we can use currying to derive the `Y` combinator. However, some care must be taken, and it helps to also know how currying works mathematically. The `Y` combinator ought to be such that, for any `f`, `Y*f` is `t*t`, where, for any `x`, `t*x=f*(x*x)`. We can curry `x` out of `t`:
 ```python
 >>> f = Atom("f")
 >>> x = Atom("x")
 >>> t = curry(f*(x*x), x)
->>>> t
+>>> t
 S(Kf)(S(SKK)(SKK))
 ```
-However, we cannot simply rush in and calculate `Y = curry(t*t, f)`. This would end in an infinite loop, as `t*t` also ends in an infinite loop (intentionally!). But, we can curry `f` out of `t`, and from there we can derive `Y`. As before, we cannot compute `Y*f`:
+However, we cannot simply rush in and calculate `Y = curry(t*t, f)`. This would end up in an infinite loop, as `t*t` also ends up in an infinite loop (intentionally!). But, we can curry `f` out of `t`, and from there we can derive `Y`. As before, we cannot compute `Y*f`:
 ```python 
 >>> u = curry(t, f)
 >>> u
