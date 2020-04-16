@@ -102,3 +102,24 @@ S(S(S(KS)K)(K(S(SKK)(SKK))))(S(S(KS)K)(K(S(SKK)(SKK))))
 ...
 RecursionError: maximum recursion depth exceeded
 ```
+
+For a bit of fun, let's use the calculator to prove that there is a one-point basis `{X}`. 
+```
+>>> X = curry(x*S*K, x)
+>>> X
+S(S(SKK)(KS))(KK)
+>>> X*(X*(X*X))
+K
+>>> X*K
+S
+```
+Another solution is:
+```
+>>> XX = curry(x*K*S*K, x)
+>>> XX
+S(S(S(SKK)(KK))(KS))(KK)
+>>> XX*XX*XX
+K
+>>> XX*(XX*XX)
+S
+```
