@@ -4,18 +4,12 @@ class Combinator:
         self.right = None
         self.relation = relation
 
-    def __len__(self):
-        if self.right:
-            return len(self.left) + len(self.right)
-        else:
-            return len(self.left)
-
     def __bool__(self):
         return True
 
     def __str__(self):
         if self.right:
-            if len(self.right) == 1:
+            if isinstance(self.right, Atom):
                 return str(self.left) + str(self.right)
             else:
                 return str(self.left) + "(" + str(self.right) + ")"
@@ -26,9 +20,7 @@ class Combinator:
         return str(self)
 
     def __mul__(self, other):
-        if isinstance(other, int):
-            return self * Atom("<{}>".format(other))
-        else:
+        if isinstance(other, Combinator):
             if self.relation is None:
                 result = Combinator(self)
                 result.right = other
@@ -41,11 +33,10 @@ class Combinator:
                     result = Combinator(self, val)
                     result.right = other
                     return result
+        else:
+            return self * Atom(other)
 
 
 class Atom(Combinator):
     def __init__(self, left, relation=None):
         super().__init__(left, relation)
-
-    def __len__(self):
-        return 1
