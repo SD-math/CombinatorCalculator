@@ -10,9 +10,9 @@ class Combinator:
     def __str__(self):
         if self.right:
             if isinstance(self.right, Atom):
-                return str(self.left) + str(self.right)
+                return str(self.left) + " * " + str(self.right)
             else:
-                return str(self.left) + "(" + str(self.right) + ")"
+                return str(self.left) + " * (" + str(self.right) + ")"
         else:
             return str(self.left)
 

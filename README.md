@@ -4,11 +4,11 @@ A package designed to check calculations in combinatory algebras.
 ## Combinators
 The core module, `combinators.py` contains classes `Combinator` and `Atom`. The `Combinator` class governs behaviour of combinator application, which is implemented as `__mul__`. Therefore, if `a` and `b` are combinators, then `a*b` gives `a` applied to `b`.
 
-We can define new atoms, e.g. `x = Atom("x")`, which is a combinator which prints as `"x"` and applies to other terms as if it is a free variable. To define primitives, i.e. atoms with a reduction rule, we include an function to express the reduction rule. For example, below we introduce the so-called "mockingbird" combinator. We can quickly check what a combinator does by applying it to integers. For these purposes, an integer `n` will be converted to `Atom(n)`, which basically turns the integer into a free variable &mdash; so only use single digit integers, to avoid confusion.
+We can define new atoms, e.g. `x = Atom("x")`, which is a combinator which prints as `"x"` and applies to other terms as if it is a free variable. To define primitives, i.e. atoms with a reduction rule, we include an function to express the reduction rule. For example, below we introduce the so-called "mockingbird" combinator. We can quickly check what a combinator does by applying it to integers. For these purposes, an integer `n` will be converted to `Atom(n)`, which basically turns the integer into a free variable.
 ```
 >>> M = Atom("M", lambda x: x*x)
 >>> M*0
-00
+0 * 0
 ```
 Indeed, we can produce the well-known infinite loop:
 ```
@@ -23,17 +23,17 @@ In the module `SK_basis.py`, the usual primitive `S` and `K` are built in, as ar
 ```
 >>> from SK_basis import *
 >>> S*0*1*2 # try out S
-02(12)
+0 * 2 * (1 * 2)
 >>> K*0*1 # try out K
 0
 >>> K*identity*0*1 # try out K*identity
 1
 >>> B # the B combinator is built in - otherwise known as the bluebird
-S(KS)(S(KK)(SKK))
+S * (K * S) * (S * (K * K) * (S * K * K))
 >>> B*0*1*2 # try out the bluebird
-0(12)
+0 * (1 * 2)
 >>> bluebird(3)*0*1*2*3*4 # there are a whole family of bluebirds, with B = bluebird(1)
-0(1234)
+0 * (1 * 2 * 3 * 4)
 >>> projection(1, 0)*0 # projection combinators are built in
 0
 >>> projection(2,0)*0*1
@@ -43,20 +43,20 @@ S(KS)(S(KK)(SKK))
 >>> projection(5,3)*0*1*2*3*4
 3
 >>> projection(5,3)
-K(K(K(S(KK)(SKK))))
+K * (K * (K * (S * (K * K) * (S * K * K))))
 ```
 We can construct the mockingbird as `S*identity*identity`:
 ```
 >>> S*identity*identity*0
-00
+0 * 0
 ```
 
 Sch&ouml;nfinkel's combinator `C` is built in. We can construct the famous `Y` combinator (otherwise known as the "fixed point combinator"):
 ```
 >>> C
-S(S(K(S(KS)K))S)(KK)
+S * (S * (K * (S * (K * S) * K)) * S) * (K * K)
 >>> C*0*1*2 # try out the C combinator
-021
+0 * 2 * 1
 >>> M = S*identity*identity # create the mockingbird
 >>> Y = B*M*(C*B*M) # create the Y combinator
 ```
@@ -73,12 +73,12 @@ We can deduce a closed term to represent any term, by giving the expression for 
 >>> y = Atom("y")
 >>> z = Atom("z")
 >>> curry(x*z*y, x, y, z)
-S(S(KS)(S(KK)S))(KK)
+S * (S * (K * S) * (S * (K * K) * S)) * (K * K)
 ```
 We can even check that this expression works, because it is a combinator:
 ```
 >>> curry(x*z*y, x, y, z)*x*y*z
-xzy
+x * z * y
 ```
 The term `curry(x*z*y, x, y, z)` serves the same purpose as the `C` combinator.
 
@@ -88,16 +88,15 @@ In a couple of stages, we can use currying to derive the `Y` combinator. However
 >>> x = Atom("x")
 >>> t = curry(f*(x*x), x)
 >>> t
-S(Kf)(S(SKK)(SKK))
-```
+S * (K * f) * (S * (S * K * K) * (S * K * K))```
 However, we cannot simply rush in and calculate `Y = curry(t*t, f)`. This would end up in an infinite loop, as `t*t` also ends up in an infinite loop (intentionally!). But, we can curry `f` out of `t`, and from there we can derive `Y`. As before, we cannot compute `Y*f`:
 ```
 >>> u = curry(t, f)
 >>> u
-S(S(KS)K)(K(S(SKK)(SKK)))
+S * (S * (K * S) * K) * (K * (S * (S * K * K) * (S * K * K)))
 >>> Y = S*u*u
 >>> Y
-S(S(S(KS)K)(K(S(SKK)(SKK))))(S(S(KS)K)(K(S(SKK)(SKK))))
+S * (S * (S * (K * S) * K) * (K * (S * (S * K * K) * (S * K * K)))) * (S * (S * (K * S) * K) * (K * (S * (S * K * K) * (S * K * K))))
 >>> Y*f
 ...
 RecursionError: maximum recursion depth exceeded
@@ -107,7 +106,7 @@ For a bit of fun, let's use the calculator to prove that there is a one-point ba
 ```
 >>> X = curry(x*S*K, x)
 >>> X
-S(S(SKK)(KS))(KK)
+S * (S * (S * K * K) * (K * S)) * (K * K)
 >>> X*(X*(X*X))
 K
 >>> X*K
@@ -117,7 +116,7 @@ Another solution is:
 ```
 >>> XX = curry(x*K*S*K, x)
 >>> XX
-S(S(S(SKK)(KK))(KS))(KK)
+S * (S * (S * (S * K * K) * (K * K)) * (K * S)) * (K * K)
 >>> XX*XX*XX
 K
 >>> XX*(XX*XX)
