@@ -88,7 +88,8 @@ In a couple of stages, we can use currying to derive the `Y` combinator. However
 >>> x = Atom("x")
 >>> t = curry(f*(x*x), x)
 >>> t
-S * (K * f) * (S * (S * K * K) * (S * K * K))```
+S * (K * f) * (S * (S * K * K) * (S * K * K))
+```
 However, we cannot simply rush in and calculate `Y = curry(t*t, f)`. This would end up in an infinite loop, as `t*t` also ends up in an infinite loop (intentionally!). But, we can curry `f` out of `t`, and from there we can derive `Y`. As before, we cannot compute `Y*f`:
 ```
 >>> u = curry(t, f)
@@ -104,6 +105,7 @@ RecursionError: maximum recursion depth exceeded
 
 For a bit of fun, let's use the calculator to prove that there is a one-point basis `{X}`. 
 ```
+
 >>> X = curry(x*S*K, x)
 >>> X
 S * (S * (S * K * K) * (K * S)) * (K * K)
