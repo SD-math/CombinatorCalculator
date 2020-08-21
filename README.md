@@ -4,11 +4,11 @@ A package designed to check calculations in combinatory algebras.
 ## Combinators
 The core module, `combinators.py` contains classes `Combinator` and `Atom`. The `Combinator` class governs behaviour of combinator application, which is implemented as `__mul__`. Therefore, if `a` and `b` are combinators, then `a*b` gives `a` applied to `b`.
 
-We can define new atoms, e.g. `x = Atom("x")`, which is a combinator which prints as `"x"` and applies to other terms as if it is a free variable. To define primitives, i.e. atoms with a reduction rule, we include an function to express the reduction rule. For example, below we introduce the so-called "mockingbird" combinator. We can quickly check what a combinator does by applying it to integers. For these purposes, an integer `n` will be converted to `Atom("<{}>".format(n))`.
+We can define new atoms, e.g. `x = Atom("x")`, which is a combinator which prints as `"x"` and applies to other terms as if it is a free variable. To define primitives, i.e. atoms with a reduction rule, we include an function to express the reduction rule. For example, below we introduce the so-called "mockingbird" combinator. We can quickly check what a combinator does by applying it to integers. For these purposes, an integer `n` will be converted to `Atom(n)`, which basically turns the integer into a free variable &mdash; so only use single digit integers, to avoid confusion.
 ```
 >>> M = Atom("M", lambda x: x*x)
 >>> M*0
-<0><0>
+00
 ```
 Indeed, we can produce the well-known infinite loop:
 ```
@@ -23,32 +23,32 @@ In the module `SK_basis.py`, the usual primitive `S` and `K` are built in, as ar
 ```
 >>> from SK_basis import *
 >>> S*0*1*2 # try out S
-<0><2>(<1><2>)
+02(12)
 >>> K*0*1 # try out K
-<0>
+0
 >>> K*identity*0*1 # try out K*identity
-<1>
+1
 >>> B # the B combinator is built in - otherwise known as the bluebird
 S(KS)(S(KK)(SKK))
 >>> B*0*1*2 # try out the bluebird
-<0>(<1><2>)
+0(12)
 >>> bluebird(3)*0*1*2*3*4 # there are a whole family of bluebirds, with B = bluebird(1)
-<0>(<1><2><3><4>)
+0(1234)
 >>> projection(1, 0)*0 # projection combinators are built in
-<0>
+0
 >>> projection(2,0)*0*1
-<0>
+0
 >>> projection(2,1)*0*1
-<1>
+1
 >>> projection(5,3)*0*1*2*3*4
-<3>
+3
 >>> projection(5,3)
 K(K(K(S(KK)(SKK))))
 ```
 We can construct the mockingbird as `S*identity*identity`:
 ```
 >>> S*identity*identity*0
-<0><0>
+00
 ```
 
 Sch&ouml;nfinkel's combinator `C` is built in. We can construct the famous `Y` combinator (otherwise known as the "fixed point combinator"):
@@ -56,7 +56,7 @@ Sch&ouml;nfinkel's combinator `C` is built in. We can construct the famous `Y` c
 >>> C
 S(S(K(S(KS)K))S)(KK)
 >>> C*0*1*2 # try out the C combinator
-<0><2><1>
+021
 >>> M = S*identity*identity # create the mockingbird
 >>> Y = B*M*(C*B*M) # create the Y combinator
 ```
