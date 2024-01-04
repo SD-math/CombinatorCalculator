@@ -1,5 +1,5 @@
 # CombinatorCalculator
-A package designed to check calculations in combinatory algebras.
+A package designed to check calculations in combinatory algebras. See the relevant [Wikipedia article](https://en.wikipedia.org/wiki/SKI_combinator_calculus).
 
 ## Combinators
 The core module, `combinators.py` contains classes `Combinator` and `Atom`. The `Combinator` class governs behaviour of combinator application, which is implemented as `__mul__`. Therefore, if `a` and `b` are combinators, then `a*b` gives `a` applied to `b`.
